@@ -21,14 +21,14 @@ def get_channels(img):
 
     return (w, h, [blue_channel, green_channel, red_channel])
 
-def img_offset(img1, img2):
+def img_offset(img1, img2, fr, to):
     dx = dy = 0
     diff = mse_metric(img1, img2)
 
     w, h = img1.shape
 
-    for x in range(-15, 15):
-        for y in range(-15, 15):
+    for x in range(fr, to):
+        for y in range(fr, to):
             i1_x_fr, i2_x_fr = 0, abs(x)
             i1_x_to, i2_x_to = w - abs(x), w
             if (x < 0):
@@ -59,8 +59,8 @@ def align(img, g_coord):
     for i in range(3):
         channels[i] = channels[i][dw: w - dw, dh: h - dh]
 
-    b_offset = img_offset(channels[0], channels[1])
-    r_offset = img_offset(channels[2], channels[1])
+    b_offset = img_offset(channels[0], channels[1], -15, 16)
+    r_offset = img_offset(channels[2], channels[1], -15, 16)
 
     align_img = img
 
